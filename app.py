@@ -64,56 +64,63 @@ def spam():
 
     with open('followers.txt') as f:
         for line in f:
-            link = 'https://instagram.com/' + line + '/'
-            
-            driver.get(link)
-            followers_file.write(line + '\n')
-            print(line)
 
-            
-            def exists(css):
-                try:
-                    driver.find_element_by_css_selector(css)
-                except NoSuchElementException:
-                    return False
-                return True
+            try:
 
-            follow_css = '#react-root > section > main > div > header > section > div.nZSzR > div.Igw0E.IwRSH.eGOV_.ybXk5._4EzTm > div > div > div > span > span.vBF20._1OSdk > button'
-            
-            if (exists(follow_css)):
-                follow_button = driver.find_element_by_css_selector(follow_css)
-                if (follow_button.text == 'Follow'):
-                    follow_button.click()
-                    print('following')
-                    dream('long')
-                else : 
-                    print('already followed')
-            else:
-                print('follow button not located')
-            
-            dream('long')
-
-            open_dialog_css = '#react-root > section > main > div > header > section > div.nZSzR > div.Igw0E.IwRSH.eGOV_.ybXk5._4EzTm > div > div._862NM > div > button'
-            
-            if (exists(open_dialog_css)):
-                open_dialog_css = driver.find_element_by_css_selector(open_dialog_css)
-                open_dialog_css.click()
-                print('dialog opened')
-                dream('long')
-
-                textarea = driver.find_element_by_css_selector('#react-root > section > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.DPiy6.Igw0E.IwRSH.eGOV_.vwCYk > div.uueGX > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.Igw0E.IwRSH.eGOV_.vwCYk.ItkAi > textarea')
+                link = 'https://instagram.com/' + line + '/'
                 
-                textarea.send_keys(Keys.CONTROL, 'v')
+                driver.get(link)
+                followers_file.write(line + '\n')
+                print(line)
 
-                print('paste completed')
-                dream('short')
+            
+                def exists(css):
+                    try:
+                        driver.find_element_by_css_selector(css)
+                    except NoSuchElementException:
+                        return False
+                    return True
 
-                send_button = driver.find_element_by_css_selector('#react-root > section > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.DPiy6.Igw0E.IwRSH.eGOV_.vwCYk > div.uueGX > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.Igw0E.IwRSH.eGOV_._4EzTm.JI_ht > button')
-                send_button.click()
+                follow_css = '#react-root > section > main > div > header > section > div.nZSzR > div.Igw0E.IwRSH.eGOV_.ybXk5._4EzTm > div > div > div > span > span.vBF20._1OSdk > button'
+                
+                if (exists(follow_css)):
+                    follow_button = driver.find_element_by_css_selector(follow_css)
+                    if (follow_button.text == 'Follow'):
+                        follow_button.click()
+                        print('following')
+                        dream('long')
+                    else : 
+                        print('already followed')
+                else:
+                    print('follow button not located')
+            
                 dream('long')
 
-            else:
-                print('well Shit')
+                open_dialog_css = '#react-root > section > main > div > header > section > div.nZSzR > div.Igw0E.IwRSH.eGOV_.ybXk5._4EzTm > div > div._862NM > div > button'
+                
+                if (exists(open_dialog_css)):
+                    open_dialog_css = driver.find_element_by_css_selector(open_dialog_css)
+                    open_dialog_css.click()
+                    print('dialog opened')
+                    dream('long')
+
+                    textarea = driver.find_element_by_css_selector('#react-root > section > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.DPiy6.Igw0E.IwRSH.eGOV_.vwCYk > div.uueGX > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.Igw0E.IwRSH.eGOV_.vwCYk.ItkAi > textarea')
+                    
+                    textarea.send_keys(Keys.CONTROL, 'v')
+
+                    print('paste completed')
+                    dream('short')
+
+                    send_button = driver.find_element_by_css_selector('#react-root > section > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.DPiy6.Igw0E.IwRSH.eGOV_.vwCYk > div.uueGX > div > div.Igw0E.IwRSH.eGOV_._4EzTm > div > div > div.Igw0E.IwRSH.eGOV_._4EzTm.JI_ht > button')
+                    send_button.click()
+                    dream('long')
+
+                else:
+                    print('well Shit')
+
+            except:
+                print ('unnown exception, skipping the entry')
+
 
 
 spam()
