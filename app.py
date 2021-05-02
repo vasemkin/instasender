@@ -9,29 +9,25 @@ import time
 import requests
 import json
 import random
+import win32clipboard
 
 with open('auth.json') as f:
     auth = json.load(f)
 
-#TODO replace with existing profile ID. Define the ID of the browser profile, where the code will be executed.
+win32clipboard.OpenClipboard()
+clipboard_data = win32clipboard.GetClipboardData()
+win32clipboard.CloseClipboard()
+print(f'sending message: \n{clipboard_data}')
+
 mla_profile_id = auth['profile']
 
 mla_url = 'http://127.0.0.1:35000/api/v1/profile/start?automation=true&profileId='+mla_profile_id
-
-"""
-Send GET request to start the browser profile by profileId. Returns response in the following format: '{"status":"OK","value":"http://127.0.0.1:XXXXX"}', where XXXXX is the localhost port on which browser profile is launched. Please make sure that you have Multilogin listening port set to 35000. Otherwise please change the port value in the url string
-"""
 resp = requests.get(mla_url)
 
 json = resp.json()
 
-#Define DesiredCapabilities
 opts = options.DesiredCapabilities()
-
-#Instantiate the Remote Web Driver to connect to the browser profile launched by previous GET request
 driver = webdriver.Remote(command_executor=json['value'], desired_capabilities={})
-
-#Perform automation
 
 def dummy_send(element, word):    
     for c in word:
@@ -64,28 +60,41 @@ def login():
 
 def spam():
 
-
     followers_file = open('spammed_followers.txt', 'a')
 
     with open('followers.txt') as f:
         for line in f:
             link = 'https://instagram.com/' + line + '/'
-            #link = 'https://www.instagram.com/reyokiko/'
+            
             driver.get(link)
             followers_file.write(line + '\n')
             print(line)
-            dream('long')
 
+            
             def exists(css):
                 try:
                     driver.find_element_by_css_selector(css)
                 except NoSuchElementException:
                     return False
                 return True
+
+            follow_css = '#react-root > section > main > div > header > section > div.nZSzR > div.Igw0E.IwRSH.eGOV_.ybXk5._4EzTm > div > div > div > span > span.vBF20._1OSdk > button'
             
+            if (exists(follow_css)):
+                follow_button = driver.find_element_by_css_selector(follow_css)
+                if (follow_button.text == 'Follow'):
+                    follow_button.click()
+                    print('following')
+                    dream('long')
+                else : 
+                    print('already followed')
+            else:
+                print('follow button not located')
+            
+            dream('long')
 
             open_dialog_css = '#react-root > section > main > div > header > section > div.nZSzR > div.Igw0E.IwRSH.eGOV_.ybXk5._4EzTm > div > div._862NM > div > button'
-
+            
             if (exists(open_dialog_css)):
                 open_dialog_css = driver.find_element_by_css_selector(open_dialog_css)
                 open_dialog_css.click()

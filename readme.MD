@@ -21,6 +21,7 @@ i might update the repo to get rid of multilogin in the future
 
 dependencies used:
 - selenium
+- pywin32
 - instaloader
 
 software used:
